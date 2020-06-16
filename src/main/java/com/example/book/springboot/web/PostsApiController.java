@@ -1,17 +1,19 @@
 package com.example.book.springboot.web;
 
-import com.example.book.springboot.domain.posts.Posts;
-import com.example.book.springboot.domain.posts.PostsRepository;
 import com.example.book.springboot.service.posts.PostsService;
+import com.example.book.springboot.web.dto.PostsListResponseDto;
 import com.example.book.springboot.web.dto.PostsResponseDto;
 import com.example.book.springboot.web.dto.PostsSaveRequestDto;
 import com.example.book.springboot.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 public class PostsApiController {
+
     private final PostsService postsService;
 
     //저장
@@ -25,17 +27,23 @@ public class PostsApiController {
     public Long update(@PathVariable Long id, @RequestBody PostsUpdateRequestDto requestDto){
         return postsService.update(id, requestDto);
     }
-    
-    //조회
+
+    //삭제
+    @DeleteMapping("/api/v1/posts/{id}")
+    public Long delete(@PathVariable Long id) {
+        postsService.delete(id);
+        return id;
+    }
+
+    //글 조회
     @GetMapping("/api/v1/posts/{id}")
     public PostsResponseDto findById (@PathVariable Long id){
         return postsService.findById(id);
     }
-    
-    //삭제
-    @DeleteMapping("/api/v1/posts/{id}")
-    public Long delete(@PathVariable Long id){
-        postsService.delete(id);
-        return id;
+
+    //리스트 조회
+    @GetMapping("/api/v1/posts/list")
+    public List<PostsListResponseDto> findAll() {
+        return postsService.findAllDesc();
     }
 }
