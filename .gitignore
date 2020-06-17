@@ -2,7 +2,7 @@
 .gradle
 .idea
 
-application-real-oauth.properties
+application-real-oauth.properties //구글 로그인 보안
 
 build
 out
